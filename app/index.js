@@ -11,6 +11,10 @@ var mb = menubar({
     width:300, 
     height:250,
     alwaysOnTop :true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
   }
 });
 
