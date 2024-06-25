@@ -24,6 +24,8 @@
 
 <p align="center">Featured in <a href="https://www.makeuseof.com/open-source-pomodoro-apps-productivity/">The 9 Best Open Source Pomodoro Apps for Productivity</a> on MakeUseOf.com</p>
 
+<p align="center"><strong>This is a fork of the original Pomolectron app by Amit Merchant. This version 2.0 has been tested only on Windows.</strong></p>
+
 |  macOS            |  Windows |
 |---------------------|----------------------|
 |![pomolectron-macos](https://cloud.githubusercontent.com/assets/3647841/24491376/9250a1de-1544-11e7-86ef-82b77c006daa.png) | ![](https://raw.githubusercontent.com/amitmerchant1990/pomolectron/master/app/res/pomodoro.PNG) |
@@ -37,7 +39,7 @@
   - Windows, macOS and Linux ready.
 
 <a href="https://www.patreon.com/amitmerchant">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
 

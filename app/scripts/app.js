@@ -1,5 +1,6 @@
 'use strict';
 const shell = require('electron').shell;
+// const { BrowserWindow } = require('@electron/remote');
 
 class Timer {
     constructor(minutes, seconds = 60) {
@@ -32,6 +33,8 @@ class Timer {
             if (this.minutes == 0 && this.seconds == 0) {
                 notifyUser();
                 this.stopTimer();
+    
+                ipc.send('pomodoro-finished');
             }
         }, 1000);
     }
@@ -109,16 +112,29 @@ $(document).on('click', 'a[href^="http"]', function (event) {
 let normalTimer = new Timer(25);
 
 $('#start').click(() => {
+    $('nav').hide();
+    $('body').css('padding-top', 0);
+    $('ul.nav-tabs').hide();
+    $('#pomodoro > div.container:first').css('font-size', '8px');
+    $('#time').css({
+        'margin-top': '5px',
+        'margin-bottom': '0px'
+    });
+    $('.btn').css('padding', '1px 6px');
 
     normalTimer.startTimer(display);
     $('#stop').show();
     $('#start').hide();
+    
+    ipc.send('pomodoro-started');
 })
 
 $('#stop').click(() => {
     normalTimer.stopTimer();
     $('#start').show();
     $('#stop').hide();
+    
+    ipc.send('pomodoro-stopped');
 });
 
 $('#reset').click(() => {
@@ -126,6 +142,8 @@ $('#reset').click(() => {
 
     $('#start').show();
     $('#stop').hide();
+    
+    ipc.send('pomodoro-stopped');
 });
 
 let shortTimer = new Timer(5);
@@ -172,6 +190,12 @@ $('#long_reset').click(() => {
     $('#long_stop').hide();
 });
 
+// setTimeout(() => {
+//     document.getElementById('fake-bar').addEventListener('mousedown', (event) => {
+//         const win = BrowserWindow.getFocusedWindow();
+//         win.startMoving();
+//     });
+// }, 2000);
 
 function closeApp() {
     ipc.send('closeApp', 'close');
