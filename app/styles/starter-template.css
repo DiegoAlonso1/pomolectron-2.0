@@ -98,3 +98,11 @@ h1 {
         font-size: 5em;
     }
 }
+
+
+#choose-folder-btn, #use-last-folder-btn {
+  display: inline-block;
+}
+#pomodoro>.container:first-child{
+  display: none;
+}

@@ -32,9 +32,24 @@
         <h1>¡El Pomodoro ha terminado!</h1>
         <textarea class="form-control" rows="10"></textarea>
         <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary">Guardar</button>
-            <button type="button" class="btn btn-secondary">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="save-btn">Guardar</button>
+            <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
         </div>
     </div>
+
+    <audio id='notiSound' src='../audio/alert.wav' loop/>
+
+    <script type="text/javascript">
+    if (typeof module === 'object') {
+      var electron = require('electron');
+      // Require in any additional modules that are Node.js only
+      window.module = module;
+      module = undefined;
+    }
+    </script>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/notification.js"></script>    
+    <script src="../scripts/pomodoro-finished-window.js"></script>
 </body>
 </html>

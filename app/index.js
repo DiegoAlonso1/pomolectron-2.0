@@ -6,6 +6,8 @@ const { menubar } = require('menubar');
 const ipcMain = require('electron').ipcMain;
 const { initialize, enable } = require('@electron/remote/main');
 
+let initialPosition;
+
 initialize();
 
 var mb = menubar({
@@ -15,7 +17,7 @@ var mb = menubar({
   browserWindow: {
     width: 300,
     height: 250,
-    alwaysOnTop: false,
+    alwaysOnTop: true,
     movable: true,
     webPreferences: {
       nodeIntegration: true,
@@ -49,41 +51,64 @@ const contextMenu = electron.Menu.buildFromTemplate([
 
 ]);
 
-ipcMain.on('pomodoro-started', () => {
+const makeWindowSmall = () => {
   mb.window.setSize(120, 90);
-  mb.window.setAlwaysOnTop(true);
 
-  // Obtener las dimensiones de la pantalla
   let { width, height } = screen.getPrimaryDisplay().workAreaSize;
 
-  // Calcular la posición de la ventana para que se ubique en la parte inferior derecha
   let x = width - 122;
   let y = height - 92;
 
-  // Mover la ventana a la posición calculada
   mb.window.setPosition(x, y);
+}
+
+
+const makeWindowBig = () => {
+  mb.window.setSize(300, 250);
+  mb.window.setPosition(initialPosition[0], initialPosition[1]);
+}
+
+ipcMain.on('pomodoro-started', () => {
+  makeWindowSmall();
 });
 
 ipcMain.on('pomodoro-stopped', () => {
-  mb.window.setSize(300, 250);
-  mb.window.setAlwaysOnTop(false);
+  makeWindowBig();
 });
+
+let pomoTxtFilePath;
+
+ipcMain.on('save-file-path', (event, path) => {
+    pomoTxtFilePath = path;
+});
+
 
 ipcMain.on('pomodoro-finished', () => {
   let win = new BrowserWindow({
     width: 800,
     height: 600,
+    alwaysOnTop: true,
     webPreferences: {
       nodeIntegration: true,
+      contextIsolation: false
     }
   })
 
   win.loadFile(__dirname + '/views/end-of-pomodoro.html')
   win.center()
+
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send('get-file-path', pomoTxtFilePath);
+  });
 });
 
 ipcMain.on('closeApp', (event, close) => {
   mb.app.quit();
+});
+
+ipcMain.on('pomofinish-close-window', (event) => {
+  let window = BrowserWindow.fromWebContents(event.sender);
+  window.close();
 });
 
 mb.on('ready', () => {
@@ -106,11 +131,9 @@ mb.on('ready', () => {
 });
 
 mb.on('after-create-window', function () {
-  //mb.window.openDevTools()
-})
-
-
-mb.on('before-create-window', function () {
-  enable(mb.window.webContents);
+  setTimeout(() => {
+    initialPosition = mb.window.getPosition();
+    enable(mb.window.webContents);
+  }, 1000);
   //mb.window.openDevTools()
 })

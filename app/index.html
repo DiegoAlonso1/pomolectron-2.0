@@ -65,8 +65,17 @@
 
         <div class="container">
 
-          <div class="starter-template">
+          <div class="starter-template" id="buttons-container">
             <div class="row">
+              <div>
+                <button type="button" class="btn btn-large btn-primary full-width" id="choose-folder-btn">Elegir carpeta de notas</button>
+
+                <button type="button" id="use-last-folder-btn" class="btn btn-large btn-success full-width">Usar última carpeta</button>
+
+                <p id="last-folder-text">Última carpeta: </p>
+              </div>
+            </div>
+            <div class="row" style="display: none;">
               <div>
                 <button type="button" class="btn btn-large btn-primary full-width" id="start"><span class="glyphicon glyphicon-play"></span></button>
 
