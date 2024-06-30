@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Pomodoro Finished</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
             display: flex;
@@ -14,38 +15,112 @@
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
-        .container {
-            width: 80%;
-        }
         h1 {
             font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            margin-bottom: 1em;
+        }
+        h3 {
+            font-size: 1.4em;
+            font-weight: bold;
             color: #333;
             margin-bottom: 1em;
         }
         .btn-group {
             margin-top: 1em;
         }
+        #timer {
+            position: relative; /* Para posicionar el span absolutamente dentro del div */
+            width: 100px;
+            height: 100px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #timer svg {
+            transform: rotate(-90deg); /* Rota el SVG para que el progreso comience desde la parte superior */
+        }
+        #timer span {
+            position: absolute;
+            font-size: 1.2em;
+        }
+
+
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 2vh;
+            max-height: 98vh;
+            width: 100%;
+            margin: 0;
+        }
+        .left-content {
+            flex: 1;
+        }
+        .right-content {
+            width: 200px;
+            margin-left: 20px;
+            max-height: 100vh;
+        }
+        .item-list {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        .item {
+            height: 60px;
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>¡El Pomodoro ha terminado!</h1>
-        <textarea class="form-control" rows="10"></textarea>
-        <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary" id="save-btn">Guardar</button>
-            <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+        <div class="left-content">
+            <h1>¡El Pomodoro ha terminado!</h1>
+            <textarea class="form-control" rows="7"></textarea>
+            <textarea class="form-control" id="readonly-textarea" rows="7" readonly></textarea>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-primary" id="save-continue-btn">Guardar y Continuar</button>
+                <button type="button" class="btn btn-success" id="save-btn">Guardar</button>
+                <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+        <div class="right-content">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <h3>Pomodoros anteriores</h3>
+                <button style="font-size: 24px; background: none; border: none; cursor: pointer;" id="open-folder-btn">
+                    <i class="fas fa-folder"></i>
+                </button>
+            </div>
+            <div class="item-list">
+                <button type="button" class="list-group-item list-group-item-action">Item Example</button>
+            </div>
+            <div class="timer-container">
+                <div id="timer">
+                    <svg width="100" height="100">
+                        <circle cx="50" cy="50" r="47" stroke="#e6e6e6" stroke-width="6" fill="none"/>
+                        <circle id="progress" cx="50" cy="50" r="47" stroke="#3498db" stroke-width="6" fill="none" stroke-dasharray="295.31" stroke-dashoffset="295.31"/>
+                    </svg>
+                    <span id="time">01:00</span>
+                </div>
+            </div>
         </div>
     </div>
+
+
 
     <audio id='notiSound' src='../audio/alert.wav' loop/>
 
     <script type="text/javascript">
-    if (typeof module === 'object') {
-      var electron = require('electron');
-      // Require in any additional modules that are Node.js only
-      window.module = module;
-      module = undefined;
-    }
+        if (typeof module === 'object') {
+        var electron = require('electron');
+        // Require in any additional modules that are Node.js only
+        window.module = module;
+        module = undefined;
+        }
     </script>
     <script src="../scripts/jquery.min.js"></script>
     <script src="../scripts/bootstrap.min.js"></script>
