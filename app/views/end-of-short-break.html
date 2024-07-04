@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Descanso Corto Finished</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+            margin-bottom: 1em;
+        }
+        .btn-group {
+            margin-top: 1em;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-top: 2vh;
+            max-height: 98vh;
+            width: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>¡El Descanso ha terminado!</h1>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-success" id="continue-btn">Continuar</button>
+            <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+        </div>
+    </div>
+
+    <audio id='notiSound' src='../audio/alert.wav' loop/>
+
+    <script type="text/javascript">
+        if (typeof module === 'object') {
+        var electron = require('electron');
+        // Require in any additional modules that are Node.js only
+        window.module = module;
+        module = undefined;
+        }
+    </script>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/bootstrap.min.js"></script>
+    <script src="../scripts/notification.js"></script>    
+    <script src="../scripts/short-break-finished-window.js"></script>
+</body>
+</html>

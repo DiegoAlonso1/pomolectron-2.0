@@ -7,6 +7,7 @@ const shell = require('electron').shell;
 // const { BrowserWindow } = require('@electron/remote');
 
 let currentSavePath = null;
+let isShortBreak = false;
 
 class Timer {
     constructor(minutes, seconds = 60) {
@@ -40,7 +41,12 @@ class Timer {
                 notifyUser();
                 this.stopTimer();
 
-                ipc.send('pomodoro-finished');
+                if (!isShortBreak) {
+                    ipc.send('pomodoro-finished');
+                }
+                else {
+                    ipc.send('short-break-finished');
+                }
             }
         }, 1000);
     }
@@ -110,8 +116,17 @@ var display_short = document.querySelector('#time_short');
 var display_long = document.querySelector('#time_long');
 
 
+// let normalTimeMinutes = 25;
+// let normalTimeSeconds = 0;
+let normalTimeMinutes = 25;
+let normalTimeSeconds = 60;
 
-let normalTimer = new Timer(25);
+// let shortTimeMinutes = 5;
+// let shortTimeSeconds = 0;
+let shortTimeMinutes = 5;
+let shortTimeSeconds = 60;
+
+let normalTimer = new Timer(normalTimeMinutes, normalTimeSeconds);
 
 const showOnlyTimerAndButtons = () => {
     $('nav').hide();
@@ -211,6 +226,32 @@ $('#long_reset').click(() => {
     $('#long_start').show();
     $('#long_stop').hide();
 });
+
+
+
+
+ipcRenderer.on('start-short-break', () => {
+    isShortBreak = true;
+
+    normalTimer.minutes = shortTimeMinutes;
+    normalTimer.seconds = shortTimeSeconds;
+    normalTimer.initialMinutes = shortTimeMinutes;
+    normalTimer.initialSeconds = shortTimeSeconds;
+
+    $('#start').click();
+});
+
+ipcRenderer.on('end-short-break', () => {
+    isShortBreak = false;
+
+    normalTimer.minutes = normalTimeMinutes;
+    normalTimer.seconds = normalTimeSeconds;
+    normalTimer.initialMinutes = normalTimeMinutes;
+    normalTimer.initialSeconds = normalTimeSeconds;
+
+    $('#start').click();
+});
+
 
 // setTimeout(() => {
 //     document.getElementById('fake-bar').addEventListener('mousedown', (event) => {

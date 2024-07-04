@@ -45,6 +45,8 @@ $('#save-continue-btn').on('click', function () {
             });
         }
     });
+
+    ipcRenderer.send('save-continue-clicked');
 });
 
 $('#save-btn').on('click', function () {

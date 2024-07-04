@@ -111,6 +111,43 @@ ipcMain.on('pomofinish-close-window', (event) => {
   window.close();
 });
 
+ipcMain.on('shortbreakfinish-close-window', (event, data) => {
+  let window = BrowserWindow.fromWebContents(event.sender);
+  window.close();
+
+  if (data.continue) {
+    const win = BrowserWindow.getAllWindows().find(w => w.getTitle() === 'Pomolectron');
+
+    if (win) {
+        win.webContents.send('end-short-break');
+    }
+  }
+});
+
+ipcMain.on('save-continue-clicked', () => {
+  const win = BrowserWindow.getAllWindows().find(w => w.getTitle() === 'Pomolectron');
+
+  if (win) {
+      win.webContents.send('start-short-break');
+  }
+})
+
+
+ipcMain.on('short-break-finished', () => {
+  let win = new BrowserWindow({
+    width: 250,
+    height: 250,
+    alwaysOnTop: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
+  })
+
+  win.loadFile(__dirname + '/views/end-of-short-break.html')
+  win.center();
+});
+
 mb.on('ready', () => {
   global.sharedObj = {
     hide: mb.hideWindow,
